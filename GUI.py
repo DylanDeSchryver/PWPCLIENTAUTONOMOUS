@@ -4,7 +4,7 @@ import datetime
 import os
 from info_and_check import save_info, check_login
 from direction import send_command
-from camfeeds import update_camera_feed
+from camfeeds import update_camera_feed, update_overlay_feed
 
 
 # Global variables
@@ -135,6 +135,7 @@ def loggedin(username, password, key, name):
     scrollbar.pack(side="right", fill="y")
     log_text.config(yscrollcommand=scrollbar.set)
 
+    update_overlay_feed(top_left_frame)
     update_camera_feed(bottom_left_frame)
 
     forward_button = tk.Button(

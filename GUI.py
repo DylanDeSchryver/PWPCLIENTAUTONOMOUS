@@ -141,53 +141,56 @@ def loggedin(username, password, key, name):
     forward_button = tk.Button(
         top_right_frame,
         text="    ↑    ",
-        command=lambda: [send_command('forward'),
-                         log_forward()]
+        command=lambda: [send_command('forward'), log_forward()]
     )
 
     backward_button = tk.Button(
         top_right_frame,
         text="    ↓    ",
-        command=lambda: [send_command('backward'),
-                         log_backward()]
+        command=lambda: [send_command('backward'), log_backward()]
     )
 
     left_button = tk.Button(
         top_right_frame,
         text="    ←    ",
-        command=lambda: [send_command('left'),
-                         log_left()]
+        command=lambda: [send_command('left'), log_left()]
     )
 
     right_button = tk.Button(
         top_right_frame,
         text="    →    ",
-        command=lambda: [send_command('right'),
-                         log_right()]
+        command=lambda: [send_command('right'), log_right()]
     )
     play_button = tk.Button(
         top_right_frame,
         text="   ▶   ",
-        command=lambda: [send_command('play'),
-                         log_play()]
+        command=lambda: [send_command('play'), log_play()]
+    )
+    logout_button = tk.Button(
+        top_right_frame,
+        text="   logout   ",
+        command=lambda: [send_command('stop'), log_logout()]
     )
     stop_button = tk.Button(
         top_right_frame,
         text="   🟥   ",
-        command=lambda: [send_command('stop'),
-                         log_stop()]
+        command=lambda: [send_command('stop'), log_stop()]
     )
 
-    logout_button = tk.Button(top_right_frame, text="   Logout   ", command=lambda: [send_command('stop'),
-                                                                                     log_logout()])
+    logout_button = tk.Button(top_right_frame, text="   Logout   ", command= log_logout)
 
     forward_button.grid(row=1, column=1)
     backward_button.grid(row=3, column=1)
     left_button.grid(row=2, column=0)
     right_button.grid(row=2, column=2)
     stop_button.grid(row=2, column=1)
-    play_button.grid(row=4, column = 1)
+    play_button.grid(row=4, column=1)
     logout_button.grid(row=5, column=1)
+
+    root.bind('<w>', lambda event: [send_command('forward'), log_forward()])
+    root.bind('<s>', lambda event: [send_command('backward'), log_backward()])
+    root.bind('<a>', lambda event: [send_command('left'), log_left()])
+    root.bind('<d>', lambda event: [send_command('right'), log_right()])
 
     root.grid_rowconfigure(0, weight=1)
     root.grid_rowconfigure(1, weight=1)
@@ -206,7 +209,7 @@ def loggedin(username, password, key, name):
         f.write(f'New Log File @{username}!')
         print("log created")
 
-    #the following log_ functions add the movements to the log file
+    # the following log_ functions add the movements to the log file
     def log_forward():
         current_time = datetime.datetime.now()
 
@@ -256,6 +259,7 @@ def loggedin(username, password, key, name):
         log_message(f'\n{username}/Play {today} {today_time}')
         with open(filename, 'at') as f:
             f.write(f'\n{username}/Play {today} {today_time}')
+
     def log_stop():
         current_time = datetime.datetime.now()
 
@@ -267,30 +271,31 @@ def loggedin(username, password, key, name):
             f.write(f'\n{username}/Stop {today} {today_time}')
 
     def log_logout():
-        #global log_text
         current_time = datetime.datetime.now()
 
         root.destroy()
         today = current_time.strftime("%x")
         today_time = current_time.strftime("%X")
         today = today.replace('/', '-')
-        #log_message(f'\n{username}/Logout {today} {today_time}')
         with open(filename, 'at') as f:
             f.write(f'\n{username}/Logout {today} {today_time}')
         window()
-    #Edits real time log in GUI
+
+    # Edits real time log in GUI
     def log_message(message):
         current_text = log_text.get("1.0", tk.END)
         new_text = f"{message}\n{current_text}"
         log_text.delete("1.0", tk.END)
         log_text.insert("1.0", new_text)
-    #Just to say welcome + name
+
+    # Just to say welcome + name
     def welcome():
         log_text.insert("1.0", f"\nWelcome {name}\n")
 
     welcome()
 
     root.mainloop()
+
 
 # Save window
 def save():

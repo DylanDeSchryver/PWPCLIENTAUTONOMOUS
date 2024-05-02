@@ -177,7 +177,7 @@ def loggedin(username, password, key, name):
         command=lambda: [send_command('stop'), log_stop()]
     )
 
-    logout_button = tk.Button(top_right_frame, text="   Logout   ", command= log_logout)
+
 
     forward_button.grid(row=1, column=1)
     backward_button.grid(row=3, column=1)

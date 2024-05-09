@@ -4,7 +4,7 @@ import datetime
 import os
 from info_and_check import save_info, check_login
 from direction import send_command
-from camfeeds import update_camera_feed, update_overlay_feed
+from camfeeds import update_camera_feed
 
 
 # Global variables
@@ -121,8 +121,6 @@ def loggedin(username, password, key, name):
     bottom_right_frame = tk.Frame(root, width=640, height=480)
 
     top_left_frame.grid(row=0, column=0, sticky="nsew")
-    camera_feed_label = tk.Label(top_left_frame)
-    camera_feed_label.pack()
     bottom_left_frame.grid(row=1, column=0, sticky="nsew")
 
     top_right_frame.grid(row=0, column=1, sticky="nsew")
@@ -135,8 +133,9 @@ def loggedin(username, password, key, name):
     scrollbar.pack(side="right", fill="y")
     log_text.config(yscrollcommand=scrollbar.set)
 
-    update_overlay_feed(top_left_frame)
-    update_camera_feed(bottom_left_frame)
+
+
+    update_camera_feed(bottom_left_frame,top_left_frame)
 
     forward_button = tk.Button(
         top_right_frame,
